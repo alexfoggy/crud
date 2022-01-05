@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -23,9 +24,46 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        dd(1);
+        $item = Validator::make($request->all(), [
+            'name' => 'required',
+            'alias' => 'required',
+        ]);
+
+        if($item->fails()){
+            return response()->json([
+                'status' => false,
+                'messages' => $item->messages(),
+            ]);
+        }
+        
+        $id = null;
+
+        if($request->input('id')){
+            $id = $request->input('id');
+        }
+
+        $active = 0;
+
+        if($request->input('active') == 'on'){
+            $active = 1;
+        }
+
+        $newCategory = Category::updateOrCreate(['id' => $id], [
+            'p_id' => $request->input('parent'),
+            'alias' => $request->input('alias'),
+            'name' => $request->input('name'),
+            'active' => $active,
+        ]);
+        // $newCategory->name = $request->input('name');
+        // $newCategory->alias = $request->input('alias'); 
+        // $newCategory->p_id = ; 
+        // $newCategory->active = $active; 
+        // $newCategory->save();
+
+        return redirect('/');
+
     }
 
     /**
@@ -56,9 +94,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($alias)
     {
-        //
+        $category = Category::get(); 
+        $currentCategory = Category::where('alias',$alias)->first(); 
+        return view('edit',compact('category','currentCategory'));
     }
 
     /**
@@ -79,8 +119,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category,$alias)
     {
-        //
+        $categoryItem = Category::where('alias',$alias)->first();
+        
+        return redirect('/');
     }
 }

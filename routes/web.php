@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/categoryCreate', 'CategoryController@create');
+Route::post('/categoryDelete/{alias?}', 'CategoryController@destroy');  
+Route::get('/categoryEdit/{alias?}', 'CategoryController@edit');
 Route::get('/', 'CategoryController@index');
