@@ -8,10 +8,9 @@ function generateCategories($categories)
             <h6 class="my-0">
             '.$category->name .'</h6> 
             </a>
-            <span class="text-muted">'.$category->p_id.'</span>
-            </li>';
+                </li>';
         if (count($category->children) > 0) {
-          echo '<span class="d-block" style="padding-left:'.$category->p_id * 10 .'px !important">';
+          echo '<span class="d-block" style="padding-left:20px !important;border-left:1px #ddd solid">';
             generateCategories($category->children);
           echo '</span>';
         }
