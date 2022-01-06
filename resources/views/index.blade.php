@@ -1,10 +1,15 @@
 @extends('app')
+
+@section('title','Создание категорий')
+
 @section('content')
 
 
 <main>
     <div class="py-5 text-center">
-
+        @if(session('status'))
+            <p class="text-success">Категория была удаленна </p>
+        @endif
     </div>
 
     <div class="row g-5">

@@ -57,11 +57,6 @@ class CategoryController extends Controller
             'name' => $request->input('name'),
             'active' => $active,
         ]);
-        // $newCategory->name = $request->input('name');
-        // $newCategory->alias = $request->input('alias'); 
-        // $newCategory->p_id = ; 
-        // $newCategory->active = $active; 
-        // $newCategory->save();
 
         return redirect('/');
 
@@ -97,9 +92,11 @@ class CategoryController extends Controller
      */
     public function edit($alias)
     {
-        $category = Category::get(); 
+        $category = Category::where('p_id',0)->get(); 
+        $categoryAll = Category::get();
         $currentCategory = Category::where('alias',$alias)->first(); 
-        return view('edit',compact('category','currentCategory'));
+        
+        return view('edit',compact('category','currentCategory','categoryAll'));
     }
 
     /**
@@ -123,7 +120,14 @@ class CategoryController extends Controller
     public function destroy(Category $category,$alias)
     {
         $categoryItem = Category::where('alias',$alias)->first();
+        
+        $childrens = Category::where('p_id',$categoryItem->id)->get();
+        if(count($childrens) > 0){
+            return redirect('/categoryEdit/'.$alias)->with('status', 'error');
+        }
 
-        return redirect('/');
+        $categoryItem->delete();
+
+        return redirect('/')->with('status', 'succes');
     }
 }

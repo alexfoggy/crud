@@ -6,8 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Checkout example · Bootstrap v5.0</title>
-
+    <title> @yield('title') </title>
+  
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
 
     

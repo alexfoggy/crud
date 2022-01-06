@@ -1,10 +1,14 @@
 @extends('app')
-@section('content')
 
+@section('title','Редактироване категории:--'.$currentCategory->name)
+
+@section('content')
 
 <main>
     <div class="py-5 text-center">
-
+        @if(session('status'))
+            <p class="text-danger">Невозможно удалить категорию (категория имеет подкатегорию)</p>
+        @endif
     </div>
 
     <div class="row g-5">
@@ -14,27 +18,12 @@
                 <span class="badge bg-primary rounded-pill"></span>
             </h4>
             <ul class="list-group mb-3">
-                @foreach ($category as $categoryItem)
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <a href="{{url('categoryEdit',$categoryItem->alias)}}" class="text-decoration-none @if($categoryItem->id === $currentCategory->id) text-warning @else text-dark  @endif">
-                            <h6 class="my-0">{{$categoryItem->name}}</h6>
-                            {{-- <small class="text-muted">Brief description</small> --}}
-                        </a>
-                        <span class="text-muted">{{$categoryItem->p_id}}</span>
-                        <form action='{{url('categoryDelete',$categoryItem->alias)}}' method="POST" style='position: absolute;left:calc(100% + 10px);cursor: pointer;'>
-                            @csrf
-                            <button type="submit" style="border:0;width: 20px;height:20px;background-color:#bd2130;color:#fff;border-radius:50%;" class="d-flex justify-content-center align-items-center">-</button>
-                        </form>
-                    </li>
-                @endforeach
-
-
+                {{generateCategories($category)}}
             </ul>
-
 
         </div>
         <div class="col-md-7 col-lg-8">
-            <h4 class="mb-3">Редактирование категории {{$currentCategory->name}}</h4>
+            <h4 class="mb-3">Редактирование категории <span class='text-danger'> {{$currentCategory->name}} </span></h4>
             <form class="needs-validation" novalidate action='{{url('categoryCreate')}}' method="POST">
                 @csrf
                 <input type="hidden" class="form-control" id="id" name='id' value='{{$currentCategory->id}}' required>
@@ -42,31 +31,22 @@
                     <div class="col-sm-6">
                         <label for="name" class="form-label">Название</label>
                         <input type="text" class="form-control" id="name" name='name' value='{{$currentCategory->name}}' required>
-                        <div class="invalid-feedback">
-                            Valid first name is required.
-                        </div>
                     </div>
 
                     <div class="col-sm-6">
                         <label for="parent" class="form-label">Родитель</label>
                         <select class="form-select" name='parent' id="parent" required>
                             <option value="0">Первый уровень</option>
-                            @foreach ($category as $categoryItem)
+                            @foreach ($categoryAll as $categoryItem)
                             <option value="{{$categoryItem->id}}" @if($currentCategory->p_id == $categoryItem->id) selected @endif>{{$categoryItem->name}}</option>
                             @endforeach
  
                         </select>
-                        <div class="invalid-feedback"> 
-                            Valid last name is required.
-                        </div>
                     </div>
 
                     <div class="col-sm-6">
                         <label for="alias" class="form-label">Руотинг</label>
                         <input type="text" class="form-control" id="alias" name='alias' value='{{$currentCategory->alias}}' required>
-                        <div class="invalid-feedback">
-                            Valid first name is required.
-                        </div>
                     </div>
 
                     <div class="col-sm-4 pt-4 d-flex align-items-center pl-5">
@@ -76,22 +56,17 @@
 
                 </div>
 
-
-
                 <hr class="my-4">
 
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Добавить категорию</button>
+                <button class="w-100 mb-2 btn btn-primary btn-lg" type="submit">Добавить категорию</button>
+   
+            </form>
+            <form action='{{url('categoryDelete',$currentCategory->alias)}}' method="POST">
+                @csrf
+                <button type="submit" style="border:0;background-color:#bd2130;color:#fff;" class="d-flex px-3 py-2 justify-content-center align-items-center">Удалить категорию</button>
             </form>
         </div>
     </div>
 </main>
-
-
-
-
-
-
-
-
 
 @stop
