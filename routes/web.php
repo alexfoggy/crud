@@ -2,18 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+//Create and Update category 
 Route::post('/categoryCreate', 'CategoryController@create');
+
+//Delete category
 Route::post('/categoryDelete/{alias?}', 'CategoryController@destroy');  
+
+//Edit category page
 Route::get('/categoryEdit/{alias?}', 'CategoryController@edit');
+
+//Main page and in this Test Create category form page
 Route::get('/', 'CategoryController@index');

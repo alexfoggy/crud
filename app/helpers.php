@@ -8,6 +8,7 @@ function generateCategories($categories)
             <h6 class="my-0">
             '.$category->name .'</h6> 
             </a>
+            <a href='.url('categoryEdit',$category->alias).'>edit</a>
                 </li>';
         if (count($category->children) > 0) {
           echo '<span class="d-block" style="padding-left:20px !important;border-left:1px #ddd solid">';

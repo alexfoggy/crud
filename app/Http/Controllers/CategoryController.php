@@ -55,7 +55,7 @@ class CategoryController extends Controller
             'active' => $active,
         ]);
 
-        return redirect('/');
+        return redirect('/')->with('status','Категория '.$newCategory->name.' была создана');
 
     }
 
