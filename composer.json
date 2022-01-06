@@ -23,7 +23,7 @@
         "phpunit/phpunit": "^8.5"
     },
     "config": {
-        "optimize-autoloader": true,
+        "optimize-autoloader": false,
         "preferred-install": "dist",
         "sort-packages": true
     },
@@ -38,8 +38,11 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
-        ]
+            "database/factories" 
+        ],
+        "files": [
+            "app/helpers.php"
+        ] 
     },
     "autoload-dev": {
         "psr-4": {

@@ -14,24 +14,14 @@
                 <span class="badge bg-primary rounded-pill"></span>
             </h4>
             <ul class="list-group mb-3">
-                @foreach ($category as $categoryItem)
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <a href="{{url('categoryEdit',$categoryItem->alias)}}" class="text-dark text-decoration-none">
-                            <h6 class="my-0">{{$categoryItem->name}}</h6>
-                            {{-- <small class="text-muted">Brief description</small> --}}
-                        </a>
-                        <span class="text-muted">{{$categoryItem->p_id}}</span>
-                </li>
-                @endforeach
-
-
+                {{generateCategories($category)}}
             </ul>
 
 
         </div>
         <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Создание категории</h4>
-            <form class="needs-validation" novalidate action='{{url('categoryCreate')}}' method="POST">
+            <form class="needs-validation" action='{{url('categoryCreate')}}' method="POST">
                 @csrf
                 <div class="row g-3">
                     <div class="col-sm-6">
@@ -46,7 +36,7 @@
                         <label for="parent" class="form-label">Родитель</label>
                         <select class="form-select" name='parent' id="parent" required>
                             <option value="0">Первый уровень</option>
-                            @foreach ($category as $categoryItem)
+                            @foreach ($categoryAll as $categoryItem)
                             <option value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
                             @endforeach
 
@@ -80,13 +70,5 @@
         </div>
     </div>
 </main>
-
-
-
-
-
-
-
-
 
 @stop

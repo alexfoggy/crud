@@ -15,8 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::get(); 
-        return view('index',compact('category'));
+        $category = Category::where('p_id',0)->get(); 
+        $categoryAll = Category::get(); 
+        return view('index',compact('category','categoryAll')); 
     }
 
     /**
@@ -122,7 +123,7 @@ class CategoryController extends Controller
     public function destroy(Category $category,$alias)
     {
         $categoryItem = Category::where('alias',$alias)->first();
-        
+
         return redirect('/');
     }
 }
