@@ -29,14 +29,11 @@ class CategoryController extends Controller
     {
         $item = Validator::make($request->all(), [
             'name' => 'required',
-            'alias' => 'required',
+            'alias' => 'required|unique:category',
         ]);
 
         if($item->fails()){
-            return response()->json([
-                'status' => false,
-                'messages' => $item->messages(),
-            ]);
+            return redirect('/')->with('status',$item->messages());
         }
         
         $id = null;
@@ -123,11 +120,11 @@ class CategoryController extends Controller
         
         $childrens = Category::where('p_id',$categoryItem->id)->get();
         if(count($childrens) > 0){
-            return redirect('/categoryEdit/'.$alias)->with('status', 'error');
+            return redirect('/categoryEdit/'.$alias)->with('status', 'Невозможно удалить категорию (категория имеет подкатегорию)');
         }
 
         $categoryItem->delete();
 
-        return redirect('/')->with('status', 'succes');
+        return redirect('/')->with('status', 'Категория была удаленна');
     }
 }

@@ -4,11 +4,12 @@
 
 @section('content')
 
+<a href='{{url('/')}}'>Создать категорию</a>
 
 <main>
     <div class="py-5 text-center">
         @if(session('status'))
-            <p class="text-success">Категория была удаленна </p>
+            <p class="text-success"> {{session('status')}}</p>
         @endif
     </div>
 

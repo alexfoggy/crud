@@ -4,10 +4,12 @@
 
 @section('content')
 
+<a href='{{url('/')}}'>Создать категорию</a>
+
 <main>
     <div class="py-5 text-center">
         @if(session('status'))
-            <p class="text-danger">Невозможно удалить категорию (категория имеет подкатегорию)</p>
+            <p class="text-danger">{{session('status')}}</p>
         @endif
     </div>
 
